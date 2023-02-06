@@ -7,6 +7,7 @@ let visitsSchema4 = require("./Models/Visits4");
 let visitsSchema5 = require("./Models/Visits5");
 let visitsSchema6 = require("./Models/Visits6");
 let visitsSchema7 = require("./Models/Visits7");
+let visitsSchema8 = require("./Models/Visits8");
 
 // CREATE service
 router.post("/create-visits1", (req, res, next) => {
@@ -85,6 +86,17 @@ router.post("/create-visits7", (req, res, next) => {
         }
     });
 });
+
+router.post("/create-visits8", (req, res, next) => {
+    visitsSchema8.create(req.body, (error, data) => {
+        if (error) {
+            return next(error);
+        } else {
+            console.log("Visits created successfully.", data);
+            res.json(data);
+        }
+    });
+});
 // READ visits
 router.get("/1", (req, res) => {
     visitsSchema1.find((error, data, next) => {
@@ -148,6 +160,16 @@ router.get("/6", (req, res) => {
 
 router.get("/7", (req, res) => {
     visitsSchema7.find((error, data, next) => {
+        if (error) {
+            return next(error);
+        } else {
+            res.json(data);
+        }
+    });
+});
+
+router.get("/8", (req, res) => {
+    visitsSchema8.find((error, data, next) => {
         if (error) {
             return next(error);
         } else {
@@ -261,6 +283,23 @@ router.put("/update-visits6/:id", (req, res, next) => {
 
 router.put("/update-visits7/:id", (req, res, next) => {
     visitsSchema7.findByIdAndUpdate(
+        req.params.id,
+        {
+            $set: req.body,
+        },
+        (error, data) => {
+            if (error) {
+                return next(error);
+            } else {
+                res.json(data);
+                console.log("Visits updated successfully !", data);
+            }
+        }
+    );
+});
+
+router.put("/update-visits8/:id", (req, res, next) => {
+    visitsSchema8.findByIdAndUpdate(
         req.params.id,
         {
             $set: req.body,
